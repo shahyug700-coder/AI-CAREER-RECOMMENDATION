@@ -20,3 +20,9 @@ npm run dev
 
 
 Open the link displayed (usually http://localhost:5174) in your browser to start using it.
+
+
+
+To Watch the working of the project click on the given youtube link
+
+https://youtu.be/gGMOZY2BSbY
