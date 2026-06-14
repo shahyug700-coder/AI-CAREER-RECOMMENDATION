@@ -1,16 +1,22 @@
-# React + Vite
+# AI Career Pathfinder Chatbot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AI Career Pathfinder is a smart chatbot that helps students find their perfect career path. You fill out a quick form about your skills and goals, and the AI will analyze it to give you personalized career recommendations and chat with you to answer all your questions.
 
-Currently, two official plugins are available:
+## 🌟 How It Works
+1. **Fill Out Your Profile**: Enter your education, skills, interests, and career goals.
+2. **AI Analysis**: The system saves your profile in a secure database.
+3. **Chat with the Advisor**: An AI Career Advisor will give you career matches and chat with you to guide you step-by-step.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 How to Run the Project
+1. Open your terminal in the project folder.
+2. Install dependencies:
+   ```bash
+   npm install
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+To Start the application:
 
-## Expanding the ESLint configuration
+npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+Open the link displayed (usually http://localhost:5174) in your browser to start using it.
