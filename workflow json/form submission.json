@@ -1,0 +1,141 @@
+{
+  "name": "form submission",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "career",
+          "mode": "list",
+          "cachedResultName": "career"
+        },
+        "options": {
+          "pineconeNamespace": "restaurant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        -144
+      ],
+      "id": "d4df48ae-722d-43ec-845e-9735259620a8",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8xB0RoHKRoTHSGO5",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "embed-english-v3.0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
+      "typeVersion": 1,
+      "position": [
+        160,
+        128
+      ],
+      "id": "d8c1f268-4458-447f-8b99-01ab7f0626c7",
+      "name": "Embeddings Cohere",
+      "credentials": {
+        "cohereApi": {
+          "id": "dPtn0ei8ameSehNn",
+          "name": "Cohere account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "loader": "csvLoader",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        368,
+        128
+      ],
+      "id": "dd463582-f88f-4bd0-a821-70c007cc93c9",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "9b232bdc-1075-46de-be03-a15f44657476",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        -144
+      ],
+      "id": "1c9dd8a9-29a0-4fd4-bed0-45964722ad00",
+      "name": "Webhook",
+      "webhookId": "9b232bdc-1075-46de-be03-a15f44657476"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Embeddings Cohere": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "48010d8e-f6c3-46cc-bcad-caeac372a028",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1db98821325196df9640fa0248624653f3ba148b346e0c79328e9a9aa7cf0c51"
+  },
+  "nodeGroups": [],
+  "id": "QlNqBymEFGpiXDWD",
+  "tags": []
+}

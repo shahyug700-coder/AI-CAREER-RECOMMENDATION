@@ -1,0 +1,190 @@
+{
+  "name": "chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -32,
+        0
+      ],
+      "id": "f3a76c7f-b569-4f15-9085-011388a13c05",
+      "name": "When chat message received",
+      "webhookId": "00188b58-3eee-4346-9a79-7e665032b55b"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are an AI Career Recommendation Assistant.\n\nYour role is to help users identify the most suitable career paths based on their skills, interests, education, experience, and career goals.\n\nResponsibilities:\n- Assess user skills, interests, and strengths.\n- Recommend relevant career options and job roles.\n- Explain the reasoning behind each recommendation.\n- Suggest required skills, certifications, and learning resources.\n- Create personalized learning roadmaps.\n- Provide guidance on career transitions and skill development.\n- Answer questions related to careers, industries, salaries, and future job opportunities.\n- Offer actionable next steps to help users achieve their career goals.\n\nKnowledge Source:\n- Always use the vector store tool when answering questions related to careers, skills, courses, job roles, learning resources, or career paths.\n- Retrieve relevant information from the vector store before generating a response.\n\nCommunication Style:\n- Be friendly, encouraging, and professional.\n- Use clear and simple language.\n- Provide structured responses with headings and bullet points.\n- Use emojis where appropriate (🎯 🚀 📚 💼).\n- Focus on helping users make confident and informed career decisions.\n\nGoal:\nHelp users discover the right career path and create a practical roadmap for success."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "94bc6d90-3bce-4b54-b8c0-c42b2819d808",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "a01f170e-c1a6-4f23-8458-3121af8fb262",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "dgHCcFHk5mRaaaKs",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        224,
+        208
+      ],
+      "id": "a36b88a5-2626-4040-a758-9eedeedc2fc9",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Call this tool to retrieve career-related information from the vector store. The database contains details about career paths, job roles, required skills, educational qualifications, certifications, salary ranges, industry demand, career growth opportunities, learning resources, courses, and professional development roadmaps.\n\nAlways use this tool when users ask questions about:\n- Career recommendations\n- Suitable job roles\n- Required skills and technologies\n- Learning paths and roadmaps\n- Certifications and courses\n- Salary expectations\n- Industry trends\n- Career transitions\n- Future job opportunities\n\nRetrieve relevant information from the vector store before generating a response to ensure accurate, personalized, and data-driven career guidance.",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "career",
+          "mode": "list",
+          "cachedResultName": "career"
+        },
+        "options": {
+          "pineconeNamespace": "CAREER"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        464,
+        192
+      ],
+      "id": "d0ec4554-3ab2-4301-8751-adba022f9bec",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8xB0RoHKRoTHSGO5",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "embed-english-v3.0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
+      "typeVersion": 1,
+      "position": [
+        416,
+        384
+      ],
+      "id": "f3e8dee5-f1e6-4d79-b922-f7730e76de27",
+      "name": "Embeddings Cohere",
+      "credentials": {
+        "cohereApi": {
+          "id": "dPtn0ei8ameSehNn",
+          "name": "Cohere account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Cohere": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "988c17e7-0346-4353-9813-647490941f0e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1db98821325196df9640fa0248624653f3ba148b346e0c79328e9a9aa7cf0c51"
+  },
+  "nodeGroups": [],
+  "id": "diANoFVt5V1wNFaL",
+  "tags": []
+}
